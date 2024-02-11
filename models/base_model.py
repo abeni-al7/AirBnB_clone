@@ -8,11 +8,18 @@ from datetime import datetime
 class BaseModel():
     """A base model for all other classes."""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """An initialization method"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs:
+            for key in kwargs.keys():
+                if key == "created_at" or key == "updated_at":
+                    kwargs[key] = datetime.strptime(kwargs[key], "%Y-%m-%dT%H:%M:%S.%f")
+            self.__dict__.update(**kwargs)
+        else:
+            self.id = str(uuid.uuid4())
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def save(self):
         """Updates the updated_at time"""
