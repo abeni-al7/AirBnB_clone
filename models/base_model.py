@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """This module provides a base model."""
-
 import uuid
 from datetime import datetime
 
 
-class BaseModel():
+class BaseModel:
     """A base model for all other classes."""
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +25,7 @@ class BaseModel():
 
     def to_dict(self):
         """Returns a dictionary containing __dict__"""
-        my_dict = self.__dict__
+        my_dict = self.__dict__.copy()
         my_dict["__class__"] = self.__class__.__name__
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
