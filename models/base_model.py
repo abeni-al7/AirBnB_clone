@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """This module provides a base model."""
+
 import uuid
 from datetime import datetime
-from models.__init__ import storage
+import models
 
 
 class BaseModel():
@@ -10,25 +11,27 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         """An initialization method"""
-        if kwargs:
-            for key in kwargs.keys():
+        time_format = "%Y-%m-%dT%H:%M:%S.%f"
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.today()
+        self.updated_at = datetime.today()
+        if len(kwargs) != 0:
+            for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
-                    kwargs[key] = datetime.strptime(kwargs[key], "%Y-%m-%dT%H:%M:%S.%f")
-            self.__dict__.update(**kwargs)
+                    self.__dict__[key] = datetime.strptime(value, time_format)
+                else:
+                    self.__dict__[key] = value
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def save(self):
         """Updates the updated_at time"""
-        self.updated_at = datetime.now()
-        storage.save()
+        self.updated_at = datetime.today()
+        models.storage.save()
 
     def to_dict(self):
         """Returns a dictionary containing __dict__"""
-        my_dict = self.__dict__
+        my_dict = self.__dict__.copy()
         my_dict["__class__"] = self.__class__.__name__
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
@@ -36,4 +39,5 @@ class BaseModel():
 
     def __str__(self):
         """A string representation of an instance"""
-        return ("[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__))
+        name = self.__class__.__name__
+        return ("[{}] ({}) {}".format(name, self.id, self.__dict__))
