@@ -3,6 +3,8 @@
 
 import uuid
 from datetime import datetime
+import json
+from models.__init__ import storage
 
 
 class BaseModel():
@@ -20,10 +22,12 @@ class BaseModel():
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new()
 
     def save(self):
         """Updates the updated_at time"""
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """Returns a dictionary containing __dict__"""
