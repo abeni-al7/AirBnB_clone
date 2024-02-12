@@ -19,14 +19,15 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
+
     def do_quit(self, line):
         """quit: quits the interpreter"""
         return True
-    
+
     def do_EOF(self, line):
         """EOF: quits the interpreter"""
         return True
-    
+
     def do_create(self, line):
         """Create command for BaseModel instance"""
         args = line.split()
@@ -81,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
                     object.append(object.__str__())
                 elif len(args) == 0:
                     object.append(object.__str__())
-            print (object)
+            print(object)
 
     def do_update(self, line):
         """Updates an instance"""
@@ -107,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
                 type(eval(args[3])) != dict
             except NameError:
                 print("** value missing **")
-                return False    
+                return False
         if len(args) == 5:
             obj = obj_dict["{}.{}".format(args[1], args[2])]
             if args[3] in obj.__class__.__dict__.keys():
@@ -138,6 +139,7 @@ class HBNBCommand(cmd.Cmd):
     def help_EOF(self):
         """Help for EOF"""
         print("EOF: quits the interpreter")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

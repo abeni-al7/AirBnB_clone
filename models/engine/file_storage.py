@@ -12,17 +12,17 @@ from models.review import Review
 
 class FileStorage():
     """A class for file storage"""
-    
+
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
         """Returns the objects dictionary"""
         return FileStorage.__objects
-    
+
     def new(self, obj):
         """Sets an object in the dictionary"""
-        name = obj.__class__.__name__ 
+        name = obj.__class__.__name__
         key = "{}.{}".format(name, obj.id)
         FileStorage.__objects[key] = obj
 
