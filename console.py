@@ -67,18 +67,18 @@ class HBNBCommand(cmd.Cmd):
         elif "{}.{}".format(args[0], args[1]) not in obj_dict:
             print("** no instance found **")
         else:
-            del obj_dict[".".join(args[0], args[1])]
+            del obj_dict[".".join(args)]
             storage.save()
 
     def do_all(self, line):
         """Prints the string representation of all instances"""
         args = line.split()
-        if len(args) > 1 and args[1] not in HBNBCommand.__classes:
+        if len(args) > 0 and args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist")
         else:
             objects = []
             for object in storage.all().values():
-                if len(args) > 1 and args[1] == object.__class__.__name__:
+                if len(args) > 0 and args[0] == object.__class__.__name__:
                     objects.append(object.__str__())
                 elif len(args) == 0:
                     objects.append(object.__str__())
