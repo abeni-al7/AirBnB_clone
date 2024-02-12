@@ -13,6 +13,11 @@ class HBNBCommand(cmd.Cmd):
     __classes = {
         "BaseModel",
         "User",
+        "Place",
+        "State",
+        "City",
+        "Amenity",
+        "Review"
     }
     def do_quit(self, line):
         """quit: quits the interpreter"""
