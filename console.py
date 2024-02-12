@@ -74,7 +74,7 @@ class HBNBCommand(cmd.Cmd):
         """Prints the string representation of all instances"""
         args = line.split()
         if len(args) > 0 and args[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist")
+            print("** class doesn't exist **")
         else:
             objects = []
             for object in storage.all().values():
