@@ -31,43 +31,43 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         """Create command for BaseModel instance"""
         args = line.split()
-        if len(args) < 2:
+        if len(args) < 1:
             print("** class name missing **")
-        elif args[1] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
-            print(eval(args[1])().id)
+            print(eval(args[0])().id)
             storage.save()
 
     def do_show(self, line):
         """Prints the string representation of an instance"""
         args = line.split()
         obj_dict = storage.all()
-        if len(args) < 2:
+        if len(args) < 1:
             print("** class name missing **")
-        elif args[1] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(args) < 3:
+        elif len(args) < 2:
             print("** instance id missing **")
-        elif "{}.{}".format(args[1], args[2]) not in obj_dict:
+        elif "{}.{}".format(args[0], args[1]) not in obj_dict:
             print("** no instance found **")
         else:
-            print(obj_dict("{}.{}".format(args[1], args[2])))
+            print(obj_dict["{}.{}".format(args[0], args[1])])
 
     def do_destroy(self, line):
         """Destroy an instance"""
         args = line.split()
         obj_dict = storage.all()
-        if len(args) < 2:
+        if len(args) < 1:
             print("** class name missing **")
-        elif args[1] not in HBNBCommand.__classes:
+        elif args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
-        elif len(args) < 3:
+        elif len(args) < 2:
             print("** instance id missing **")
-        elif "{}.{}".format(args[1], args[2]) not in obj_dict:
+        elif "{}.{}".format(args[0], args[1]) not in obj_dict:
             print("** no instance found **")
         else:
-            del obj_dict[".".join(args[1], args[2])]
+            del obj_dict[".".join(args[0], args[1])]
             storage.save()
 
     def do_all(self, line):
@@ -79,46 +79,46 @@ class HBNBCommand(cmd.Cmd):
             objects = []
             for object in storage.all().values():
                 if len(args) > 1 and args[1] == object.__class__.__name__:
-                    object.append(object.__str__())
+                    objects.append(object.__str__())
                 elif len(args) == 0:
-                    object.append(object.__str__())
+                    objects.append(object.__str__())
             print(object)
 
     def do_update(self, line):
         """Updates an instance"""
         args = line.split()
         obj_dict = storage.all()
-        if len(args) == 1:
+        if len(args) == 0:
             print("** class name missing **")
             return False
-        if args[1] not in HBNBCommand.__classes:
+        if args[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
             return False
-        if len(args) == 2:
+        if len(args) == 1:
             print("** instance id missing **")
             return False
-        if "{}.{}".format(args[1], args[2]) not in obj_dict.keys():
+        if "{}.{}".format(args[0], args[1]) not in obj_dict.keys():
             print("** no instance found **")
             return False
-        if len(args) == 3:
+        if len(args) == 2:
             print("** attribute name missing **")
             return False
-        if len(args) == 4:
+        if len(args) == 3:
             try:
-                type(eval(args[3])) != dict
+                type(eval(args[2])) != dict
             except NameError:
                 print("** value missing **")
                 return False
-        if len(args) == 5:
-            obj = obj_dict["{}.{}".format(args[1], args[2])]
-            if args[3] in obj.__class__.__dict__.keys():
-                valtype = type(obj.__class__.__dict__[args[3]])
-                obj.__dict__[args[3]] = valtype(args[4])
+        if len(args) == 4:
+            obj = obj_dict["{}.{}".format(args[0], args[1])]
+            if args[2] in obj.__class__.__dict__.keys():
+                valtype = type(obj.__class__.__dict__[args[2]])
+                obj.__dict__[args[2]] = valtype(args[3])
             else:
-                obj.__dict__[args[3]] = args[4]
-        elif type(eval(args[3])) == dict:
-            obj = obj_dict["{}.{}".format(args[1], args[2])]
-            for k, v in eval(args[3]).items():
+                obj.__dict__[args[2]] = args[3]
+        elif type(eval(args[2])) == dict:
+            obj = obj_dict["{}.{}".format(args[0], args[1])]
+            for k, v in eval(args[2]).items():
                 if (k in obj.__class__.__dict__.keys() and
                         type(obj.__class__.__dict__[k]) in {str, int, float}):
                     valtype = type(obj.__class__.__dict__[k])
