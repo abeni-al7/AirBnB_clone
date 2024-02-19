@@ -3,6 +3,11 @@
   flex-wrap: wrap;
 }
 
+.name {
+  font-size: 30px;
+  align-items: center;
+}
+
 .places {
   border: 0;
   display: flex;
@@ -80,5 +85,17 @@
   border-top: 1px solid #DDDDDD;
   border-bottom: 1px solid #DDDDDD;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+}
+
+.max-guest {
+  width: 100px;
+}
+
+.number_rooms {
+  width: 100px;
+}
+
+.number_bathrooms {
+  width: 100px;
 }
